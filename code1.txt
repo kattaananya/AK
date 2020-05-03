@@ -1,0 +1,56 @@
+## Import stuff
+ 
+import numpy as np
+from sklearn import datasets, linear_model, metrics
+## Load the diabetes dataset
+diabetes = datasets.load_diabetes()
+diabetes_X = diabetes.data # matrix of dimensions 442x10
+ 
+# Split the data into training/testing sets
+diabetes_X_train = diabetes_X[:-20]
+diabetes_X_test = diabetes_X[-20:]
+ 
+# Split the targets into training/testing sets
+diabetes_y_train = diabetes.target[:-20]
+diabetes_y_test = diabetes.target[-20:]
+# train
+X = diabetes_X_train
+y = diabetes_y_train
+ 
+# train: init
+W = np.random.rand(10,)
+b = 0
+ 
+learning_rate = 0.1
+epochs = 100000
+ 
+# train: gradient descent
+for i in range(epochs):
+    # calculate predictions
+    h=np.dot(X,W)+b
+    
+ 
+    # calculate error and cost (mean squared error)
+    e=h-y
+    mean_squared_error=np.mean(np.power(e, 2))
+ 
+    # calculate gradients
+    W_gradient = (1.0/len(X)) * e.dot(X)
+    b_gradient = (1.0/len(X)) * np.sum(e)
+    W = W - (learning_rate * W_gradient)
+    b = b - (learning_rate * b_gradient)
+ 
+    # update parameters
+    ...
+ 
+    # diagnostic output
+    if i % 5000 == 0: print("Epoch %d: %f" % (i, mean_squared_error))
+# test
+X = diabetes_X_test
+y = diabetes_y_test
+ 
+# calculate predictions + calculate error and cost (same code as above)
+...
+print('Coefficients: \n', W)
+print("Mean squared error: %.2f" % mean_squared_error)
+print("="*120)
